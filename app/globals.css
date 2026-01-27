@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    /* Slack-inspired light theme */
+    --background: 0 0% 98%;
+    --foreground: 283 30% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 283 30% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 283 30% 15%;
+    --primary: 283 65% 35%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 283 15% 94%;
+    --secondary-foreground: 283 30% 25%;
+    --muted: 283 10% 92%;
+    --muted-foreground: 283 15% 45%;
+    --accent: 158 64% 40%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 283 15% 88%;
+    --input: 283 15% 88%;
+    --ring: 283 65% 35%;
+    --chart-1: 283 65% 35%;
+    --chart-2: 158 64% 40%;
+    --chart-3: 45 93% 47%;
+    --chart-4: 200 80% 50%;
+    --chart-5: 0 72% 51%;
+    --radius: 0.5rem;
+    /* Slack aubergine sidebar */
+    --sidebar-background: 283 30% 20%;
+    --sidebar-foreground: 283 10% 90%;
+    --sidebar-primary: 283 65% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 283 25% 28%;
+    --sidebar-accent-foreground: 283 10% 95%;
+    --sidebar-border: 283 20% 30%;
+    --sidebar-ring: 283 65% 60%;
+    /* Custom sentiment colors */
+    --positive: 158 64% 40%;
+    --positive-foreground: 0 0% 100%;
+    --warning: 45 93% 47%;
+    --warning-foreground: 0 0% 10%;
+    --negative: 0 72% 51%;
+    --negative-foreground: 0 0% 100%;
+  }
+  .dark {
+    /* Slack-inspired dark theme */
+    --background: 283 25% 12%;
+    --foreground: 283 10% 95%;
+    --card: 283 25% 15%;
+    --card-foreground: 283 10% 95%;
+    --popover: 283 25% 15%;
+    --popover-foreground: 283 10% 95%;
+    --primary: 283 65% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 283 20% 22%;
+    --secondary-foreground: 283 10% 90%;
+    --muted: 283 20% 20%;
+    --muted-foreground: 283 10% 60%;
+    --accent: 158 64% 45%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 283 20% 25%;
+    --input: 283 20% 25%;
+    --ring: 283 65% 55%;
+    --chart-1: 283 65% 55%;
+    --chart-2: 158 64% 45%;
+    --chart-3: 45 93% 55%;
+    --chart-4: 200 80% 55%;
+    --chart-5: 0 72% 55%;
+    --sidebar-background: 283 30% 10%;
+    --sidebar-foreground: 283 10% 90%;
+    --sidebar-primary: 283 65% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 283 25% 18%;
+    --sidebar-accent-foreground: 283 10% 95%;
+    --sidebar-border: 283 20% 20%;
+    --sidebar-ring: 283 65% 60%;
+    /* Custom sentiment colors */
+    --positive: 158 64% 45%;
+    --positive-foreground: 0 0% 100%;
+    --warning: 45 93% 55%;
+    --warning-foreground: 0 0% 10%;
+    --negative: 0 72% 50%;
+    --negative-foreground: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
