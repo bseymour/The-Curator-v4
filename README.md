@@ -26,13 +26,13 @@ Before you begin, you'll need:
 
 ### 1. Deploy to Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/your-username/the-curator)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/bseymour/The-Curator-v4)
 
 Or clone and deploy manually:
 
 ```bash
-git clone https://github.com/your-username/the-curator.git
-cd the-curator
+git clone https://github.com/bseymour/The-Curator-v4.git
+cd The-Curator-v4
 npm install
 vercel
 ```
