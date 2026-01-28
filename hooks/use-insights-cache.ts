@@ -30,7 +30,7 @@ export function generateCacheKey(
 // Read from sessionStorage (client-side only)
 function readFromStorage<T>(key: string): CachedData<T> | null {
   if (typeof window === 'undefined') return null
-  
+
   try {
     const stored = sessionStorage.getItem(key)
     if (!stored) return null
@@ -43,7 +43,7 @@ function readFromStorage<T>(key: string): CachedData<T> | null {
 // Write to sessionStorage (client-side only)
 function writeToStorage<T>(key: string, data: CachedData<T>): void {
   if (typeof window === 'undefined') return
-  
+
   try {
     sessionStorage.setItem(key, JSON.stringify(data))
   } catch (e) {
@@ -54,7 +54,7 @@ function writeToStorage<T>(key: string, data: CachedData<T>): void {
 // Remove from sessionStorage
 function removeFromStorage(key: string): void {
   if (typeof window === 'undefined') return
-  
+
   try {
     sessionStorage.removeItem(key)
   } catch {
@@ -65,14 +65,14 @@ function removeFromStorage(key: string): void {
 // Check if cached data is still valid
 export function isCacheValid(metadata: CacheMetadata | undefined, currentTimeRangeKey: string): boolean {
   if (!metadata) return false
-  
+
   const now = Date.now()
   const age = now - metadata.generatedAt
-  
+
   // Cache is invalid if time range changed or cache expired
   if (metadata.timeRangeKey !== currentTimeRangeKey) return false
   if (age > CACHE_DURATION_MS) return false
-  
+
   return true
 }
 
@@ -80,11 +80,11 @@ export function isCacheValid(metadata: CacheMetadata | undefined, currentTimeRan
 export function formatCacheAge(generatedAt: number): string {
   const ageMs = Date.now() - generatedAt
   const ageMinutes = Math.floor(ageMs / 60000)
-  
+
   if (ageMinutes < 1) return 'Just now'
   if (ageMinutes === 1) return '1 minute ago'
   if (ageMinutes < 60) return `${ageMinutes} minutes ago`
-  
+
   const ageHours = Math.floor(ageMinutes / 60)
   if (ageHours === 1) return '1 hour ago'
   return `${ageHours} hours ago`
@@ -108,19 +108,14 @@ export function useChannelInsights(
   timeRange: { preset: string; weekNumber?: number; year?: number }
 ) {
   const cacheKey = channelId ? generateCacheKey('channel', channelSlackId, timeRangeKey) : null
-  
+
   const [cachedData, setCachedData] = useState<CachedData<any> | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
-  
+
   // Load from storage on mount
   useEffect(() => {
-    if (cacheKey) {
-      const stored = readFromStorage<any>(cacheKey)
-      if (stored) {
-        setCachedData(stored)
-      }
-    }
+    setCachedData(cacheKey ? readFromStorage<any>(cacheKey) : null)
   }, [cacheKey])
 
   const isValid = cachedData ? isCacheValid(cachedData.metadata, timeRangeKey) : false
@@ -157,7 +152,7 @@ export function useChannelInsights(
       }
 
       const result = await response.json()
-      
+
       // Store in cache
       const newCachedData: CachedData<any> = {
         data: result,
@@ -166,10 +161,10 @@ export function useChannelInsights(
           timeRangeKey,
         },
       }
-      
+
       writeToStorage(cacheKey, newCachedData)
       setCachedData(newCachedData)
-      
+
       return result
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Unknown error'))
@@ -214,15 +209,10 @@ export function useTeamMemberInsights(
   const [cachedData, setCachedData] = useState<CachedData<any> | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
-  
+
   // Load from storage on mount
   useEffect(() => {
-    if (cacheKey) {
-      const stored = readFromStorage<any>(cacheKey)
-      if (stored) {
-        setCachedData(stored)
-      }
-    }
+    setCachedData(cacheKey ? readFromStorage<any>(cacheKey) : null)
   }, [cacheKey])
 
   const isValid = cachedData ? isCacheValid(cachedData.metadata, timeRangeKey) : false
@@ -261,7 +251,7 @@ export function useTeamMemberInsights(
       }
 
       const result = await response.json()
-      
+
       const newCachedData: CachedData<any> = {
         data: result,
         metadata: {
@@ -269,10 +259,10 @@ export function useTeamMemberInsights(
           timeRangeKey,
         },
       }
-      
+
       writeToStorage(cacheKey, newCachedData)
       setCachedData(newCachedData)
-      
+
       return result
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Unknown error'))
@@ -316,15 +306,10 @@ export function useTeamSummary(
   const [cachedData, setCachedData] = useState<CachedData<any> | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
-  
+
   // Load from storage on mount
   useEffect(() => {
-    if (cacheKey) {
-      const stored = readFromStorage<any>(cacheKey)
-      if (stored) {
-        setCachedData(stored)
-      }
-    }
+    setCachedData(cacheKey ? readFromStorage<any>(cacheKey) : null)
   }, [cacheKey])
 
   const isValid = cachedData ? isCacheValid(cachedData.metadata, timeRangeKey) : false
@@ -352,7 +337,7 @@ export function useTeamSummary(
       }
 
       const result = await response.json()
-      
+
       const newCachedData: CachedData<any> = {
         data: result,
         metadata: {
@@ -360,10 +345,10 @@ export function useTeamSummary(
           timeRangeKey,
         },
       }
-      
+
       writeToStorage(cacheKey, newCachedData)
       setCachedData(newCachedData)
-      
+
       return result
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Unknown error'))
@@ -402,21 +387,18 @@ export function useCompanyInsights(
 ) {
   // Use a stable cache key that doesn't change when channels load
   const cacheKey = generateCacheKey('company-insights', categoryFilter || 'all', timeRangeKey)
-  
-  const filteredChannels = categoryFilter 
+
+  const filteredChannels = categoryFilter
     ? channels.filter(ch => ch.categoryIds?.includes(categoryFilter))
     : channels
 
   const [cachedData, setCachedData] = useState<CachedData<any[]> | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
-  
+
   // Load from storage on mount and when key changes
   useEffect(() => {
-    const stored = readFromStorage<any[]>(cacheKey)
-    if (stored) {
-      setCachedData(stored)
-    }
+    setCachedData(readFromStorage<any[]>(cacheKey))
   }, [cacheKey])
 
   const isValid = cachedData ? isCacheValid(cachedData.metadata, timeRangeKey) : false
@@ -477,10 +459,10 @@ export function useCompanyInsights(
           timeRangeKey,
         },
       }
-      
+
       writeToStorage(cacheKey, newCachedData)
       setCachedData(newCachedData)
-      
+
       return newInsights
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Unknown error'))
@@ -511,7 +493,7 @@ export function useCompanyInsights(
 // Utility to clear all insights caches
 export function clearAllInsightsCache() {
   if (typeof window === 'undefined') return
-  
+
   const keysToRemove: string[] = []
   for (let i = 0; i < sessionStorage.length; i++) {
     const key = sessionStorage.key(i)
