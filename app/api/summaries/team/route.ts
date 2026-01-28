@@ -123,8 +123,8 @@ export async function POST(request: NextRequest) {
     const memberNames = members.map(m => m.name).join(', ')
 
     const { object } = await generateObject({
-      // model: gateway('anthropic/claude-sonnet-4'),  // Higher quality, slower, more expensive
-      model: gateway('anthropic/claude-3-5-haiku-latest'),  // Faster, cheaper
+      model: gateway('anthropic/claude-sonnet-4'),  // Higher quality, slower, more expensive
+      // model: gateway('anthropic/claude-3-5-haiku-latest'),  // Faster, cheaper
       schema: teamSummarySchema,
       messages: [
         {
