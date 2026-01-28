@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
     // Limit to most recent 100 messages and prepare with indices
     const limitedMessages = messages.slice(0, 100)
-    
+
     // Prepare message content for AI with indices so it can reference them
     // Use extractMessageText to handle bot/integration messages (Tray.io, Zapier, etc.)
     const messageContent = limitedMessages
@@ -83,7 +83,8 @@ export async function POST(request: Request) {
 
     // Generate summary using AI
     const { object } = await generateObject({
-      model: 'anthropic/claude-sonnet-4',
+      // model: 'anthropic/claude-sonnet-4',  // Higher quality, slower, more expensive
+      model: 'anthropic/claude-3-5-haiku-latest',  // Faster, cheaper
       schema: channelSummarySchema,
       messages: [
         {

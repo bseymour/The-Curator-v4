@@ -54,14 +54,14 @@ function getTimeRangeDates(preset: TimeRangePreset, weekNumber?: number, year?: 
 
 export async function POST(request: NextRequest) {
   try {
-    const { 
-      members, 
+    const {
+      members,
       groupName,
-      timeRange 
-    }: { 
+      timeRange
+    }: {
       members: TeamMember[]
       groupName: string
-      timeRange: { preset: TimeRangePreset; weekNumber?: number; year?: number } 
+      timeRange: { preset: TimeRangePreset; weekNumber?: number; year?: number }
     } = await request.json()
 
     if (!members || members.length === 0) {
@@ -76,17 +76,17 @@ export async function POST(request: NextRequest) {
 
     // Collect messages from all team members
     const allMessages: { memberName: string; text: string }[] = []
-    
+
     for (const member of members) {
       if (!member.slackUserId) continue
-      
+
       try {
         const timeRangeObj = calculateTimeRange(timeRange.preset, timeRange.weekNumber, timeRange.year)
         const result = await searchUserMessagesGlobal(member.slackUserId, timeRangeObj)
-        
+
         // Limit messages per member to avoid too much data
         const memberMessages = result.messages.slice(0, 30)
-        
+
         for (const msg of memberMessages) {
           allMessages.push({
             memberName: member.name,
@@ -123,7 +123,8 @@ export async function POST(request: NextRequest) {
     const memberNames = members.map(m => m.name).join(', ')
 
     const { object } = await generateObject({
-      model: gateway('anthropic/claude-sonnet-4'),
+      // model: gateway('anthropic/claude-sonnet-4'),  // Higher quality, slower, more expensive
+      model: gateway('anthropic/claude-3-5-haiku-latest'),  // Faster, cheaper
       schema: teamSummarySchema,
       messages: [
         {

@@ -45,16 +45,16 @@ const teamMemberSummarySchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    const { 
-      memberId, 
-      memberName, 
-      slackUserId, 
-      role, 
-      memberFunction, 
+    const {
+      memberId,
+      memberName,
+      slackUserId,
+      role,
+      memberFunction,
       relationship,
-      preset, 
-      weekNumber, 
-      year 
+      preset,
+      weekNumber,
+      year
     } = await request.json() as {
       memberId: string
       memberName: string
@@ -82,7 +82,7 @@ export async function POST(request: Request) {
       slackUserId,
       timeRange
     )
-    
+
     const totalMessages = userMessages.length
 
     if (totalMessages === 0) {
@@ -95,12 +95,12 @@ export async function POST(request: Request) {
         wins: [],
         concerns: [],
         sentiment: { type: 'neutral', score: 0, highlights: [] },
-        communicationTone: { 
-          terseness: 'normal', 
-          tension: 'none', 
-          warningSignals: [], 
+        communicationTone: {
+          terseness: 'normal',
+          tension: 'none',
+          warningSignals: [],
           positiveSignals: [],
-          suggestedTopicsFor1on1: [] 
+          suggestedTopicsFor1on1: []
         },
         messageCount: 0,
         channelsActive: [],
@@ -113,7 +113,7 @@ export async function POST(request: Request) {
     const messageContent = messagesToAnalyze
       .map((m, i) => `[${i}] [#${m.channel?.name || 'channel'}] ${m.text}`)
       .join('\n\n')
-    
+
     // Build message reference lookup with permalinks
     const messageRefs = messagesToAnalyze.map((m, i) => ({
       index: i,
@@ -124,7 +124,8 @@ export async function POST(request: Request) {
 
     // Generate summary using AI
     const { object } = await generateObject({
-      model: 'anthropic/claude-sonnet-4',
+      // model: 'anthropic/claude-sonnet-4',  // Higher quality, slower, more expensive
+      model: 'anthropic/claude-3-5-haiku-latest',  // Faster, cheaper
       schema: teamMemberSummarySchema,
       messages: [
         {
@@ -177,7 +178,7 @@ Be empathetic and constructive. Focus on actionable insights that help support t
       wins: object.wins || [],
       concerns: object.concerns || [],
       sentiment: object.sentiment || { type: 'neutral', score: 0, highlights: [] },
-      communicationTone: object.communicationTone 
+      communicationTone: object.communicationTone
         ? { ...defaultCommunicationTone, ...object.communicationTone }
         : defaultCommunicationTone,
       messageCount: totalMessages,
