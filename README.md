@@ -6,16 +6,6 @@
 
 AI-powered Slack insights for engineering managers. Get summaries of team activity, sentiment analysis, and communication pattern detection to help you stay connected with your team.
 
-> [!CAUTION]
-> **🔒 Security Warning — No Authentication currently implemented**
->
-> This application has **no built-in authentication or access control**. Anyone with the URL of a deployed instance can access it and all of its functionality.
->
-> The app requires a **Slack User OAuth Token** (`xoxp-...`) which grants broad read access to your Slack workspace — including message history, channel listings, and user information. **If this application is exposed publicly, anyone could read your Slack workspace data.**
->
-> **Do NOT deploy this to a publicly accessible URL** without first implementing your own authentication layer. This project is intended for **local development or private/restricted deployments only**.
->
-> **Never commit your `.env` file or Slack token to version control.**
 
 ## Features
 
@@ -28,6 +18,19 @@ AI-powered Slack insights for engineering managers. Get summaries of team activi
 - **Communication Tone Detection**: Identify early warning signals like terseness or tension
 - **1:1 Preparation**: Get suggested topics for your next 1:1 based on recent activity
 - **Slack Deep Links**: Click through to original messages for full context
+
+
+> [!CAUTION]
+> **🔒 Security Warning — No Authentication currently implemented**
+>
+> This application has **no built-in authentication or access control**. Anyone with the URL of a deployed instance can access it and all of its functionality.
+>
+> The app requires a **Slack User OAuth Token** (`xoxp-...`) which grants broad read access to your Slack workspace — including message history, channel listings, and user information. **If this application is exposed publicly, anyone could read your Slack workspace data.**
+>
+> **Do NOT deploy this to a publicly accessible URL** without first implementing your own authentication layer. This project is intended for **local development or private/restricted deployments only**.
+>
+> **Never commit your `.env` file or Slack token to version control.**
+
 
 ## Prerequisites
 
