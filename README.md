@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/banner.png" alt="The Curator - AI-powered Slack insights for engineering managers" width="100%" />
+</p>
+
 # The Curator
 
 AI-powered Slack insights for engineering managers. Get summaries of team activity, sentiment analysis, and communication pattern detection to help you stay connected with your team.
